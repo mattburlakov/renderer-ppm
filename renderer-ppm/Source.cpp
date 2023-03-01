@@ -8,7 +8,7 @@ void render() {
 
 	std::ofstream ofs;
 	ofs.open("./output.ppm");
-	ofs << "P6\n" << width << " " << height << "\n255\n";  //ppm header
+	ofs << "P3\n" << width << ' ' << height << "\n255\n";  //ppm header
 
 	for (int i = height - 1; i >= 0; i--) {
 		for (int j = 0; j < width; j++) {

@@ -11,6 +11,8 @@ void render() {
 	ofs << "P3\n" << width << ' ' << height << "\n255\n";  //ppm header
 
 	for (int i = height - 1; i >= 0; i--) {
+		std::system("cls");
+		std::cout << "scanlines remaining: " << i << '\n';
 		for (int j = 0; j < width; j++) {
 			double r = double(i) / (width - 1);
 			double g = double(j) / (height - 1);
@@ -22,6 +24,8 @@ void render() {
 			ofs << ir << ' ' << ig << ' ' << ib << '\n';
 		}
 	}
+
+	std::cout << "done" << '\n';
 
 	ofs.close();
 }

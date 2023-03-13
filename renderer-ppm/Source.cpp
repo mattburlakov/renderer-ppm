@@ -1,3 +1,6 @@
+#include "vect3.h"
+#include "color.h"
+
 #include <iostream>
 #include <fstream>
 #include <vector>
@@ -13,15 +16,10 @@ void render() {
 	for (int i = height - 1; i >= 0; i--) {
 		std::system("cls");
 		std::cout << "scanlines remaining: " << i << '\n';
-		for (int j = 0; j < width; j++) {
-			double r = double(i) / (width - 1);
-			double g = double(j) / (height - 1);
-			double b = 0.25;
 
-			int ir = static_cast<int>(255.999 * r);
-			int ig = static_cast<int>(255.999 * g);
-			int ib = static_cast<int>(255.999 * b);
-			ofs << ir << ' ' << ig << ' ' << ib << '\n';
+		for (int j = 0; j < width; j++) {
+			color pixel_color(double(i) / (width - 1), double(j) / (height - 1), 0.25);
+			write_color(ofs, pixel_color);
 		}
 	}
 

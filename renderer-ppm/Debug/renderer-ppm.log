@@ -1,6 +1,0 @@
-﻿  Source.cpp
-C:\projects_master\PORTFOLIO ASAP\renderer-ppm\renderer-ppm\vect3.h(39): warning C4172: returning address of local variable or temporary: vC
-C:\projects_master\PORTFOLIO ASAP\renderer-ppm\renderer-ppm\vect3.h(46): warning C4172: returning address of local variable or temporary: vC
-C:\projects_master\PORTFOLIO ASAP\renderer-ppm\renderer-ppm\vect3.h(53): warning C4172: returning address of local variable or temporary: vC
-C:\projects_master\PORTFOLIO ASAP\renderer-ppm\renderer-ppm\vect3.h(32): warning C4172: returning address of local variable or temporary: vC
-  renderer-ppm.vcxproj -> C:\projects_master\PORTFOLIO ASAP\renderer-ppm\Debug\renderer-ppm.exe

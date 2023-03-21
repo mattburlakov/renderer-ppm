@@ -1,0 +1,10 @@
+^C:\PROJECTS_MASTER\PORTFOLIO ASAP\RENDERER-PPM\RENDERER-PPM\BUILD\CMAKEFILES\C164918E88A49FC3835BA850C692D2F7\GENERATE.STAMP.RULE
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" "-SC:/projects_master/PORTFOLIO ASAP/renderer-ppm/renderer-ppm" "-BC:/projects_master/PORTFOLIO ASAP/renderer-ppm/renderer-ppm/build" --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file "C:/projects_master/PORTFOLIO ASAP/renderer-ppm/renderer-ppm/build/RENDERER.sln"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

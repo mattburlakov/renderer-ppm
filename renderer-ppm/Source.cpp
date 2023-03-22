@@ -9,7 +9,8 @@
 color ray_color(const Ray& r){
 	vect3 unit_dir = unit_vector(r.direction());
 	double t = .5*(unit_dir.y() + 1.0);
-	return color(1.0, 1.0, 1.0) * (1.0 - t) + color(.5, .7, 1.0) * t;
+
+	return (1.0 - t) * color(1.0, 1.0, 1.0) + t * color(0.5, 0.7, 1.0);
 }
 
 int main() {
@@ -41,14 +42,16 @@ int main() {
 
 		for (int i = image_height - 1; i >= 0; i--)
 		{
-			std::cout << "scanlines remaining: " << i << '\n';
+			//std::cout << "scanlines remaining: " << i << '\n';
 
 			for (int j = 0; j < image_width; j++)
 			{
 				double u = double(i) / (image_width - 1);
 				double v = double(j) / (image_height - 1);
+				
 				Ray r(origin, lower_left_corner +  horizontal * u + vertical * v - origin);
 				color pixel_color = std::move(ray_color(r));
+
 				write_color(ofs, pixel_color);
 			}
 		}

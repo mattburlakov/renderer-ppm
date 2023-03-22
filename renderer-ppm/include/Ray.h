@@ -7,7 +7,7 @@
 
 class Ray {
 public:
-	point orig;
+	point orig; 
 	vect3 dir;
 
 	Ray(){}

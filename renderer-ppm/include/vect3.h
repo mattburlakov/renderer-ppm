@@ -9,6 +9,7 @@
 class vect3 {
 public:
 	double data[3];
+
 	vect3() : data{0, 0, 0} {}
 	vect3(double d1, double d2, double d3) : data{ d1, d2, d3 } {}
 
@@ -29,32 +30,36 @@ public:
 						 pow(data[1], 2) +
 						 pow(data[2], 2)); 
 	}
+
+	void print(){ //debug, remove
+		std::cout << data[0] << ' ' << data[1] << ' '<< data[2] << '\n';
+	}
 };
 
-inline vect3& operator+(const vect3& vA, const vect3& vB) {
+inline vect3 operator+(const vect3& vA, const vect3& vB) {
 	return vect3 (vA.data[0] + vB.data[0],
 				  vA.data[1] + vB.data[1],
 				  vA.data[2] + vB.data[2]);
 }
 
-inline vect3& operator-(const vect3& vA, const vect3& vB) {
+inline vect3 operator-(const vect3& vA, const vect3& vB) {
 	return vect3(vA.data[0] - vB.data[0],
 				 vA.data[1] - vB.data[1],
 				 vA.data[2] - vB.data[2]);
 }
 
-inline vect3& operator*(const vect3& vA, double k) {
+inline vect3 operator*(const vect3& vA, double k) {
 	return vect3(vA.data[0] * k,
 				 vA.data[1] * k,
 				 vA.data[2] * k);
 }
-inline vect3 &operator*(double k, const vect3 &vA){
+inline vect3 operator*(double k, const vect3 &vA){
 	return vect3(k * vA.data[0],
 				 k * vA.data[1],
 				 k * vA.data[2]);
 }
 
-inline vect3& operator/(const vect3& vA, const double k) {
+inline vect3 operator/(const vect3& vA, double k) {
 	return vect3 (vA.data[0] / k,
 				  vA.data[1] / k,
 				  vA.data[2] / k);

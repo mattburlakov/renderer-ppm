@@ -8,13 +8,13 @@
 struct hit_record {
     point p;
     vect3 normal;
-    double t;
+    double t = 0;
 
-    bool front_face;
+    bool front_face = false;
 
     inline void set_face_normal(const Ray& r, const vect3& outward_normal){
         front_face = dot(r.direction(), outward_normal) < 0;
-        normal = front_face ? outward_normal : -outward_normal;
+        normal = front_face ? outward_normal : vect3(1.0, 0, 0); //mark inside as red
     }
 };
 

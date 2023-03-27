@@ -34,13 +34,14 @@ public:
 	double& operator[](int i)		{ return data[i]; }
 
 	double length() const {
+		return std::sqrt(length());
+		
+	}
+
+	double length_squared() const {
 		return pow(data[0], 2) +
 			   pow(data[1], 2) +
 			   pow(data[2], 2);
-	}
-
-	double length_squared() const { 
-		return std::sqrt(length()); 
 	}
 
 	void print(){ //debug, remove

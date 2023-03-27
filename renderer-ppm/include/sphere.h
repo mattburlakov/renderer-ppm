@@ -9,7 +9,7 @@
 class sphere : public hittable{
     public:
         point center;
-        double radius;
+        double radius = 0;
 
     sphere(){}
     sphere(point c, double r) : center(c), radius(r){}
@@ -18,18 +18,17 @@ class sphere : public hittable{
         vect3 sc = std::move(r.origin() - center);
 
         double a = r.direction().length_squared();
-        double b = dot(sc, r.direction());
+        double hb = dot(sc, r.direction());
         double c = sc.length_squared() - radius * radius;
 
-        double discriminant = b * b - a * c;
+        double discriminant = hb * hb - a * c;
 
         if (discriminant < 0) return false;
         double sqd = std::sqrt(discriminant);
 
-        double root = (-b - sqd) / a;
-        if (root < t_min || t_max < root)
-        {
-            root = (-b + sqd) / a;
+        double root = (-hb - sqd) / a;
+        if (root < t_min || t_max < root){
+            root = (-hb + sqd) / a;
             if (root < t_min || t_max < root)
                 return false;
         }
@@ -38,6 +37,8 @@ class sphere : public hittable{
         rec.p = r.at(rec.t);
         vect3 outward_normal = (rec.p - center) / radius;
         rec.set_face_normal(r, outward_normal);
+
+        return true;
     }
 };
 

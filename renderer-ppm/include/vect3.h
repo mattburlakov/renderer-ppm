@@ -6,6 +6,8 @@
 #include <cmath>
 #include <iostream>
 
+#include "utility.h"
+
 class vect3 {
 public:
 	double data[3];
@@ -44,8 +46,11 @@ public:
 			   pow(data[2], 2);
 	}
 
-	void print(){ //debug, remove
-		std::cout << data[0] << ' ' << data[1] << ' '<< data[2] << '\n';
+	inline static vect3 random() {
+		return vect3(random_d(), random_d(), random_d());
+	}
+	inline static vect3 random(double min, double max) {
+		return vect3(random_d(min, max), random_d(min, max), random_d(min, max));
 	}
 };
 
@@ -90,9 +95,18 @@ inline vect3 cross(const vect3 &vA, const vect3 &vB){
 				 vA.data[0] * vB.data[1] - vA.data[1] * vB.data[0]);
 }
 
-vect3 unit_vector(const vect3 &v)
-{
+vect3 unit_vector(const vect3 &v) {
 	return v / v.length_squared();
+}
+
+vect3 random_in_unit_sphere() {
+	while (true)
+	{
+		vect3 p = vect3::random(-1, 1);
+		if (p.length_squared() >= 1)
+			continue;
+		return p;
+	}
 }
 
 using point = vect3;

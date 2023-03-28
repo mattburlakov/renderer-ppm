@@ -2,6 +2,8 @@
 
 #include "utility.h"
 
+#include "camera.h"
+
 #include "color.h"
 #include "sphere.h"
 #include "hittable_list.h"
@@ -9,11 +11,12 @@
 #include <iostream>
 #include <fstream>
 
-color ray_color(const Ray& r, const hittable& world){
+color ray_color(const Ray& r, const hittable& world) {
 	hit_record rec;
 
 	if(world.hit(r, 0, infinity, rec)){
-		return .5 * (rec.normal + color(1.0, 1.0, 1.0)); // rec normal artifact
+		point tgt = rec.p + rec.normal + random_in_unit_sphere();
+		return .5 * ray_color(Ray(rec.p, tgt - rec.p), world);
 	}
 
 	//bg gradient
@@ -29,6 +32,7 @@ int main() {
 	const double aspect_ratio	= 16.0 / 9.0;
 	const int image_width 		= 400;
 	const int image_height 		= static_cast<int>(image_width / aspect_ratio);
+	const int samples_per_pixel = 100;
 
 	//world
 	hittable_list world;
@@ -36,15 +40,7 @@ int main() {
 	world.add(make_shared<sphere>(point(0, -100.5, -1.0), 100.0));
 
 	//camera
-	double viewport_height 	= 2.0;
-	double viewport_width 	= aspect_ratio * viewport_height;
-	double focal_length 	= 1.0;
-
-	point origin 		= point(0, 0, 0);
-	vect3 horizontal 	= vect3(viewport_width, 0, 0);
-	vect3 vertical 		= vect3(0, viewport_height, 0);
-
-	vect3 lower_left_corner = origin - horizontal / 2.0 - vertical / 2.0 - vect3(0, 0, focal_length);
+	camera cam;
 
 	//render
 	std::cout << "-Attempting to open stream for writing\n";
@@ -56,19 +52,21 @@ int main() {
 
 		ofs << "P3\n" << image_width << ' ' << image_height << "\n255\n"; // ppm header
 
-		for (int i = image_height - 1; i >= 0; i--)
-		{
+		for (int j = image_height - 1; j >= 0; j--){
 			//std::cout << "scanlines remaining: " << i << '\n';
 
-			for (int j = 0; j < image_width; j++)
-			{
-				double u = double(j) / (image_width - 1.0);
-				double v = double(i) / (image_height - 1.0);
-				
-				Ray r(origin, lower_left_corner +  horizontal * u + vertical * v);
-				color pixel_color = std::move(ray_color(r, world));
+			for (int i = 0; i < image_width; i++){
+				color pixel_color(0, 0, 0);
 
-				write_color(ofs, pixel_color);
+				for(int s = 0; s < samples_per_pixel; s++){
+					double u = (i + random_d()) / (image_width - 1.0);
+					double v = (j + random_d()) / (image_height - 1.0);
+
+					Ray r = cam.get_ray(u, v);
+					pixel_color = std::move(pixel_color + ray_color(r, world));
+				}
+
+				write_color(ofs, pixel_color, samples_per_pixel);
 			}
 		}
 

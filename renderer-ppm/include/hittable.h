@@ -3,11 +3,16 @@
 #ifndef HITTABLE_H
 #define HITTABLE_H
 
-#include "Ray.h"
+#include "utility.h"
+
+class material;
 
 struct hit_record {
     point p;
     vect3 normal;
+
+    shared_ptr<material> mat_ptr;
+
     double t = 0;
 
     bool front_face = false;

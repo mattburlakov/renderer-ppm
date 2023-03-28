@@ -44,6 +44,11 @@ public:
 			   pow(data[2], 2);
 	}
 
+	bool near_zero() const {
+		const double s = 1e-8;
+		return (std::fabs(data[0]) < s) && (std::fabs(data[1]) < s) && (std::fabs(data[2]) < 2);
+	}
+
 	inline static vect3 random() {
 		return vect3(random_d(), random_d(), random_d());
 	}
@@ -64,12 +69,18 @@ inline vect3 operator-(const vect3& vA, const vect3& vB) {
 				 vA.data[2] - vB.data[2]);
 }
 
+inline vect3 operator*(vect3 &vA, const vect3 &vB) {
+	return vect3(vA.data[0] * vB.data[0],
+				 vA.data[1] * vB.data[1],
+				 vA.data[2] * vB.data[2]);
+}
+
 inline vect3 operator*(const vect3& vA, double k) {
 	return vect3(vA.data[0] * k,
 				 vA.data[1] * k,
 				 vA.data[2] * k);
 }
-inline vect3 operator*(double k, const vect3 &vA){
+inline vect3 operator*(double k, const vect3 &vA) {
 	return vect3(k * vA.data[0],
 				 k * vA.data[1],
 				 k * vA.data[2]);
@@ -81,13 +92,13 @@ inline vect3 operator/(const vect3& vA, double k) {
 				  vA.data[2] / k);
 }
 
-inline double dot(const vect3 &vA, const vect3 &vB){
+inline double dot(const vect3 &vA, const vect3 &vB) {
 	return (vA.data[0] * vB.data[0] +
 			vA.data[1] * vB.data[1] +
 			vA.data[2] * vB.data[2]);
 }
 
-inline vect3 cross(const vect3 &vA, const vect3 &vB){
+inline vect3 cross(const vect3 &vA, const vect3 &vB) {
 	return vect3(vA.data[1] * vB.data[2] - vA.data[2] * vB.data[1],
 				 vA.data[2] * vB.data[0] - vA.data[0] * vB.data[2],
 				 vA.data[0] * vB.data[1] - vA.data[1] * vB.data[0]);
@@ -95,6 +106,10 @@ inline vect3 cross(const vect3 &vA, const vect3 &vB){
 
 inline vect3 unit_vector(const vect3 &v) {
 	return v / v.length_squared();
+}
+
+inline vect3 reflect(const vect3& v, const vect3& n) {
+	return v - 2 * dot(v, n) * n;
 }
 
 inline vect3 random_in_unit_sphere() {
@@ -105,6 +120,17 @@ inline vect3 random_in_unit_sphere() {
 			continue;
 		return p;
 	}
+}
+
+inline vect3 random_in_henisphere(const vect3& normal) {
+	vect3 in_unit_sphere = random_in_unit_sphere();
+
+	if(dot(in_unit_sphere, normal) > 0) return in_unit_sphere;
+	else return -in_unit_sphere;
+}
+
+inline vect3 random_unit_vector() {
+	return unit_vector(random_in_unit_sphere());
 }
 
 using point = vect3;

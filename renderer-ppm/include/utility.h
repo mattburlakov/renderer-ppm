@@ -9,9 +9,6 @@
 
 #include <cstdlib>
 
-#include "Ray.h"
-#include "vect3.h"
-
 using std::make_shared;
 using std::shared_ptr;
 
@@ -23,7 +20,7 @@ inline double degrees_to_radians(double degrees) {
 }
 
 inline double random_d() {
-    return std::rand() / (RAND_MAX + 1.0);
+    return rand() / (RAND_MAX + 1.0);
 }
 
 inline double random_d(double min, double max) {
@@ -36,5 +33,8 @@ inline double clamp(double x, double min, double max) {
 
     return x;
 }
+
+#include "Ray.h"
+#include "vect3.h"
 
 #endif

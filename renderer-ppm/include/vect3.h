@@ -6,8 +6,6 @@
 #include <cmath>
 #include <iostream>
 
-#include "utility.h"
-
 class vect3 {
 public:
 	double data[3];
@@ -95,15 +93,15 @@ inline vect3 cross(const vect3 &vA, const vect3 &vB){
 				 vA.data[0] * vB.data[1] - vA.data[1] * vB.data[0]);
 }
 
-vect3 unit_vector(const vect3 &v) {
+inline vect3 unit_vector(const vect3 &v) {
 	return v / v.length_squared();
 }
 
-vect3 random_in_unit_sphere() {
+inline vect3 random_in_unit_sphere() {
 	while (true)
 	{
-		vect3 p = vect3::random(-1, 1);
-		if (p.length_squared() >= 1)
+		vect3 p = std::move(vect3::random(-1.0, 1.0));
+		if (p.length_squared() >= 1.0)
 			continue;
 		return p;
 	}

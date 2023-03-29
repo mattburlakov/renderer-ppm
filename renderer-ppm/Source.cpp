@@ -10,6 +10,8 @@
 
 #include "material.h"
 
+#include "cmdinfo.h"
+
 #include <iostream>
 #include <fstream>
 
@@ -35,6 +37,8 @@ color ray_color(const Ray& r, const hittable& world, int depth) {
 }
 
 int main() {
+	cmdinfo info;
+
 	std:: cout << "-Initialize\n";
 	//image specs
 	const double aspect_ratio	= 16.0 / 9.0;
@@ -48,8 +52,8 @@ int main() {
 
 	auto material_ground = make_shared<lambertian>(color(.8, .8, 0));
 	auto material_center = make_shared<lambertian>(color(.7, .3, .3));
-	auto material_left	 = make_shared<metal>(color(.8, .8, .8));
-	auto material_right	 = make_shared<metal>(color(.8, .6, .2));
+	auto material_left	 = make_shared<metal>(color(.8, .8, .8), .3);
+	auto material_right	 = make_shared<metal>(color(.8, .6, .2), .1);
 
 	world.add(make_shared<sphere>(point(0, -100.5, -1.0), 100.0, material_ground));
 	world.add(make_shared<sphere>(point(0, 		0, -1.0), .5, material_center));
@@ -69,19 +73,24 @@ int main() {
 
 		ofs << "P3\n" << image_width << ' ' << image_height << "\n255\n"; // ppm header
 
-		for (int j = image_height - 1; j >= 0; --j){
-			//std::cout << "scanlines remaining: " << i << '\n';
+		int cmd_counter = 0;
 
+		for (int j = image_height - 1; j >= 0; --j){
 			for (int i = 0; i < image_width; ++i){
 				color pixel_color(0, 0, 0);
 
 				for(int s = 0; s < samples_per_pixel; ++s){
+					cmd_counter++;
+
 					double u = (i + random_d()) / (image_width - 1.0);
 					double v = (j + random_d()) / (image_height - 1.0);
 
 					Ray r 		= cam.get_ray(u, v);
 					pixel_color = std::move(pixel_color + ray_color(r, world, max_depth));
-					std::cout<< "-left: "<< j << ' ' << i <<' ' << s <<'\n';
+
+					info.update(int(cmd_counter * 100 /
+								   (image_height * image_width * samples_per_pixel)));
+					//std::cout << j << ' ' << i << ' ' << s << '\n';
 				}
 
 				write_color(ofs, pixel_color, samples_per_pixel);
@@ -92,7 +101,7 @@ int main() {
 		ofs.close();
 	}
 	else{
-		std::cout << "Unable to open/create file\n";
+		std::cout << "-Unable to open/create file\n";
 	}
 
 	return 0;

@@ -35,20 +35,21 @@ class lambertian : public material {
 
 class metal : public material{
     public:
-    color albedo;
+        color albedo;
+        double fuzz;
 
-    metal(const color& a) : albedo(a) {}
+        metal(const color& a, double f) : albedo(a), fuzz(f) {}
 
-    virtual bool scatter(const Ray &r_in, const hit_record &rec,
-                         color &attenuation, Ray &scattered) const override {
+        virtual bool scatter(const Ray &r_in, const hit_record &rec,
+                            color &attenuation, Ray &scattered) const override {
 
-        vect3 reflected = reflect(unit_vector(r_in.direction()), rec.normal);
+            vect3 reflected = reflect(unit_vector(r_in.direction()), rec.normal);
 
-        scattered       = Ray(rec.p, reflected);
-        attenuation     = albedo;
-        
-        return (dot(scattered.direction(), rec.normal) > 0);
-    }
+            scattered       = Ray(rec.p,  + fuzz*random_in_unit_sphere());
+            attenuation     = albedo;
+            
+            return (dot(scattered.direction(), rec.normal) > 0);
+        }
 };
 
 #endif

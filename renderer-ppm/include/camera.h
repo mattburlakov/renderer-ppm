@@ -13,11 +13,13 @@ class camera {
         vect3 vertical;
 
     public:
-        camera(){
-            double aspect_ratio     = 16.0 / 9.0;
+        camera(double vfov, double aspect_ratio) {
+            double theta = degrees_to_radians(vfov);
+            double h = std::tan(theta/2.0);
 
-            double viewport_height  = 2.0;
+            double viewport_height  = 2.0 * h;
             double viewport_width   = aspect_ratio * viewport_height;
+            
             double focal_length     = 1.0;
 
             origin        = point(0, 0, 0);

@@ -52,7 +52,7 @@ int main() {
 
 	auto material_ground = make_shared<lambertian>(color(.8, .8, 0));
 	auto material_center = make_shared<lambertian>(color(.7, .3, .3));
-	auto material_left	 = make_shared<metal>(color(.8, .8, .8), .3);
+	auto material_left	 = make_shared<dielectric>(1.5);
 	auto material_right	 = make_shared<metal>(color(.8, .6, .2), .1);
 
 	world.add(make_shared<sphere>(point(0, -100.5, -1.0), 100.0, material_ground));
@@ -61,7 +61,7 @@ int main() {
 	world.add(make_shared<sphere>(point(1.0, 	0, -1.0), .5, material_right));
 
 	//camera
-	camera cam;
+	camera cam(90.0, aspect_ratio);
 
 	//render
 	std::cout << "-Attempting to open stream for writing\n";

@@ -13,24 +13,28 @@ class camera {
         vect3 vertical;
 
     public:
-        camera(double vfov, double aspect_ratio) {
+        camera(point lookfrom, point lookat, vect3 vup,
+            double vfov, double aspect_ratio) {
+
             double theta = degrees_to_radians(vfov);
             double h = std::tan(theta/2.0);
 
             double viewport_height  = 2.0 * h;
             double viewport_width   = aspect_ratio * viewport_height;
-            
-            double focal_length     = 1.0;
 
-            origin        = point(0, 0, 0);
-            horizontal    = vect3(viewport_width, 0, 0);
-            vertical      = vect3(0, viewport_height, 0);
+            vect3 w = unit_vector(lookfrom - lookat);
+            vect3 u = unit_vector(cross(vup, w));
+            vect3 v = cross(w, u);
 
-            lower_left_corner = origin - horizontal / 2.0 - vertical / 2.0 - vect3(0, 0, focal_length);
+            origin        = lookfrom;
+            horizontal    = viewport_width * u;
+            vertical      = viewport_height * v;
+
+            lower_left_corner = origin - horizontal / 2.0 - vertical / 2.0 - w;
         }
 
-        Ray get_ray(double u, double v) const {
-            return Ray(origin, lower_left_corner + horizontal * u + vertical * v - origin);
+        Ray get_ray(double s, double t) const {
+            return Ray(origin, lower_left_corner + horizontal * s + vertical * t - origin);
         }
 };
 

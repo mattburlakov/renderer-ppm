@@ -51,17 +51,18 @@ int main() {
 	hittable_list world;
 
 	auto material_ground = make_shared<lambertian>(color(.8, .8, 0));
-	auto material_center = make_shared<lambertian>(color(.7, .3, .3));
+	auto material_center = make_shared<lambertian>(color(.3, .3, .5));
 	auto material_left	 = make_shared<dielectric>(1.5);
 	auto material_right	 = make_shared<metal>(color(.8, .6, .2), .1);
 
 	world.add(make_shared<sphere>(point(0, -100.5, -1.0), 100.0, material_ground));
 	world.add(make_shared<sphere>(point(0, 		0, -1.0), .5, material_center));
 	world.add(make_shared<sphere>(point(-1.0, 	0, -1.0), .5, material_left));
+	world.add(make_shared<sphere>(point(-1.0, 	0, -1.0), -.4, material_left));
 	world.add(make_shared<sphere>(point(1.0, 	0, -1.0), .5, material_right));
 
 	//camera
-	camera cam(90.0, aspect_ratio);
+	camera cam(point(-2.0, 2.0, 1.0), point(0, 0, -1.0), vect3(0, 1.0, 0), 20, aspect_ratio);
 
 	//render
 	std::cout << "-Attempting to open stream for writing\n";

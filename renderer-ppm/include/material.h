@@ -58,7 +58,7 @@ class dielectric : public material {
             double r0 = (1.0 - ref_idx) / (1.0 + ref_idx);
             r0 = r0 * r0;
 
-             r0 + (1.0 - r0) * pow((1 - cosine), 5);
+            return r0 + (1.0 - r0) * pow((1 - cosine), 5);
         }
     public:
         double ir;
@@ -79,7 +79,7 @@ class dielectric : public material {
             bool cannot_refract = refraction_ratio * sin_theta > 1.0;
             vect3 direction;
 
-            if (cannot_refract || reflectance(cos_theta, refraction_ratio)) { 
+            if (cannot_refract || reflectance(cos_theta, refraction_ratio) > random_d()) { 
                 direction = reflect(unit_direction, rec.normal); 
             }
             else                direction = refract(unit_direction, rec.normal, refraction_ratio);

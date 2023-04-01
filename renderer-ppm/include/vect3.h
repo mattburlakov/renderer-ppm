@@ -34,7 +34,7 @@ public:
 	double& operator[](int i)		{ return data[i]; }
 
 	double length() const {
-		return std::sqrt(length());
+		return std::sqrt(length_squared());
 		
 	}
 
@@ -105,7 +105,7 @@ inline vect3 cross(const vect3 &vA, const vect3 &vB) {
 }
 
 inline vect3 unit_vector(const vect3 &v) {
-	return v / v.length_squared();
+	return v / v.length();
 }
 
 inline vect3 reflect(const vect3& v, const vect3& n) {

@@ -17,7 +17,7 @@ class camera {
             double vfov, double aspect_ratio) {
 
             double theta = degrees_to_radians(vfov);
-            double h = std::tan(theta/2.0);
+            double h     = std::tan(theta/2.0);
 
             double viewport_height  = 2.0 * h;
             double viewport_width   = aspect_ratio * viewport_height;

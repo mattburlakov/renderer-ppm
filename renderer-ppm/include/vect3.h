@@ -133,6 +133,14 @@ inline vect3 random_unit_vector() {
 	return unit_vector(random_in_unit_sphere());
 }
 
+inline vect3 random_in_unit_disk() {
+	while(true) {
+		vect3 p = vect3(random_d(-1.0, 1.0), random_d(-1.0, 1.0), 0);
+		if(p.length_squared() >= 1) continue;
+		return p;
+	}
+}
+
 inline vect3 refract(const vect3& uv, const vect3& n, double etai_over_etat) {
 	double cos_theta = std::fmin(dot(-uv, n), 1.0);
 

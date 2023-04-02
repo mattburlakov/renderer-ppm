@@ -62,7 +62,14 @@ int main() {
 	world.add(make_shared<sphere>(point(1.0, 	0, -1.0), .5, material_right));
 
 	//camera
-	camera cam(point(-2.0, 2.0, 1.0), point(0, 0, -1.0), vect3(0, 1.0, 0), 20, aspect_ratio);
+	point lookfrom(3.0, 3.0, 2.0);
+	point lookat(0, 0, -1.0);
+	vect3 vup(0, 1.0, 0);
+
+	double dist_to_focus = (lookfrom - lookat).length();
+	double aperture 	 = 2.0;
+
+	camera cam(lookfrom, lookat, vup, 20.0, aspect_ratio, aperture, dist_to_focus);
 
 	//render
 	std::cout << "-Attempting to open stream for writing\n";
